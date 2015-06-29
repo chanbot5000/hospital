@@ -1,0 +1,7 @@
+var hospital = {
+"type": "FeatureCollection",
+                                                                                
+"features": [
+{ "type": "Feature", "properties": { "Id": 0 }, "geometry": { "type": "Point", "coordinates": [ -81.379230270034, 28.525981434676577 ] } }
+]
+};

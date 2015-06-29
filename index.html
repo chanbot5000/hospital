@@ -1,0 +1,76 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" />
+
+	<script src="http://code.jquery.com/jquery-latest.min.js " ></script>
+	<title>Orlando Regional Medical Center</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>	
+
+	<script src="data/hospital.json"></script>
+	<script src="data/hospital_30mile_buf.json"></script>
+	<script src="data/orlando_zips_wgs84.json"></script> 
+
+	<script type="text/javascript">
+
+		var map;
+
+		$(document).ready(function(){
+
+			map = L.map('map').setView([28.525981434676577, -81.379230270034 ],10);
+
+			//find many basemap options @ http://leaflet-extras.github.io/leaflet-providers/preview/				
+
+			//thunderforest landscape			
+			L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+			L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png').addTo(map);
+			
+			//ADD GEOJSON			
+			var hospitalJson = L.geoJson(hospital,{
+				onEachFeature: function(feature,layer){
+					layer.bindPopup("Orlando Regional Medical Center");
+				}
+			});
+			hospitalJson.addTo(map);			
+
+			var zipStyle = {
+				color: '#000',
+				weight: 2,
+				fillOpacity: .25,
+				fillColor: "#fff"
+			};
+
+			var zipJson = L.geoJson(zips,{
+				style: zipStyle,
+				onEachFeature: function(feature,layer){
+					layer.bindPopup(feature.properties.ZIP);
+				}
+			});
+			zipJson.addTo(map);
+			
+			var bufStyle = {
+				fillOpacity: 0,
+				//color: '#ff0000',
+				opacity: 1,
+				clickable: false
+			};
+
+			var bufferJson = L.geoJson(hospitalBuffer,{
+				style: bufStyle
+			});
+
+			bufferJson.addTo(map);	
+		}); 
+
+
+
+
+	</script>
+	
+</head>
+	
+<body>
+	<div id="map"></div>
+</body>
+
+</html>
